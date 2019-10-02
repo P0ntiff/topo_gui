@@ -1,0 +1,70 @@
+{
+    "edges": [
+        {
+            "classes": "host-switch-link",
+            "data": {
+                "weight": 1,
+                "id": "switch_01_to_host_10.0.0.1",
+                "sourceSwitchPort": 2,
+                "source": "switch_01",
+                "target": "host_10.0.0.1"
+            }
+        },
+        {
+            "classes": "host-switch-link",
+            "data": {
+                "weight": 1,
+                "id": "switch_03_to_host_10.0.0.2",
+                "sourceSwitchPort": 2,
+                "source": "switch_03",
+                "target": "host_10.0.0.2"
+            }
+        },
+        {
+            "classes": "switch-switch-link",
+            "data": {
+                "weight": 1,
+                "id": "switch_01_to_switch_02",
+                "sourceSwitchPort": 1,
+                "source": "switch_01",
+                "destSwitchPort": 1,
+                "target": "switch_02"
+            }
+        },
+        {
+            "classes": "switch-switch-link",
+            "data": {
+                "weight": 1,
+                "id": "switch_02_to_switch_03",
+                "sourceSwitchPort": 2,
+                "source": "switch_02",
+                "destSwitchPort": 1,
+                "target": "switch_03"
+            }
+        }
+    ],
+    "nodes": [
+        {
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "classes": "host",
+            "data": {
+                "id": "host_10.0.0.1",
+                "name": "10.0.0.1"
+            }
+        },
+        {
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "classes": "host",
+            "data": {
+                "id": "host_10.0.0.2",
+                "name": "10.0.0.2"
+            }
+        }
+    ]
+}
