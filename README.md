@@ -10,6 +10,6 @@ Then run python script with a poll rate, to request data and format necessary JS
     python buildGraph.py <poll-time-in-seconds>
 ```
 
-Open index.html.
+Open index.html in Firefox (chrome currently bugged).
 
 To stop python script, use ```Ctrl+c```
