@@ -61,7 +61,6 @@ var cy = cytoscape({
           'target-text-offset': '1.5em',
         }
       },
-
       {
         selector: 'edge',
         style: {
@@ -104,7 +103,7 @@ var cy = cytoscape({
 
   });
 
-  var layoutOptions = {
+  var layoutOptionsWithController = {
     name: 'breadthfirst',
     directed: false,
     roots: '#controller',
@@ -116,43 +115,67 @@ var cy = cytoscape({
     avoidOverlapPadding: 10, // extra spacing around nodes when avoidOverlap: true
     nodeDimensionsIncludeLabels: true, // Excludes the label when calculating node bounding boxes for the layout algorithm
   };
+
+  var layoutOptionsWithoutController = {
+    name: 'circle',
+    directed: false,
+    circle: false,
+    fit: true, // whether to fit the viewport to the graph
+    padding: 30, // padding used on fit
+    boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+    avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
+    avoidOverlapPadding: 10, // extra spacing around nodes when avoidOverlap: true
+    nodeDimensionsIncludeLabels: true, // Excludes the label when calculating node bounding boxes for the layout algorithm
+  };
+
   
-  var initialiseGraphElements = function() {
+  var addNetworkElements = function() {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         cy.add(JSON.parse(this.responseText));
-        var layout = cy.elements().layout(layoutOptions)
-        layout.run();
+        if ((cy.getElementById('controller') != null) && (cy.nodes('.controller').length > 0)) {
+          let layout = cy.elements().layout(layoutOptionsWithController);
+          layout.run();
+        } else {
+          let layout = cy.elements().layout(layoutOptionsWithoutController);
+          layout.run();
+        }
       }
     }
-    xhr.open("GET", "networkGraph.json", true);
+    xhr.open("GET", "networkElements.json", true);
     xhr.send();
   };
 
-  
-  var addHostsAndLinks = function() {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        cy.add(JSON.parse(this.responseText));
-        var layout = cy.elements().layout(layoutOptions)
-        layout.run();
-      }
-    }
-    xhr.open("GET", "networkHostsAndLinks.json", true);
-    xhr.send();
-  };
-
-
-  
   let counter = 0;
-  let prevData = null;
-  let currentData = null;
-  var updateSwitchStats = function() {
+  let prevTopoData = null;
+  let currTopoData = null;
+  let prevLinkData = null;
+  let currLinkData = null;
+  var updateNetwork = function() {
     if (counter < 100) {
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
+      // //topology request
+      // var topoReq = new XMLHttpRequest();
+      // topoReq.onreadystatechange = function() {
+      //   if (this.readyState == 4 && this.status == 200) {
+      //     topoData = JSON.parse(this.responseText);
+      //     currTopoData = JSON.stringify(this.responseText);
+      //     if (prevTopoData !== currTopoData) {
+      //       cy.json(topoData);
+      //       let layout = cy.elements().layout(layoutOptions);
+      //       layout.run();
+      //     }
+      //     prevTopoData = currTopoData;
+      //   }
+      // }
+      // topoReq.open("GET", "networkHostsAndLinks.json", true);
+
+
+
+
+      //stats request 
+      var statsReq = new XMLHttpRequest();
+      statsReq.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           switchData = JSON.parse(this.responseText);
           currentData = JSON.stringify(this.responseText);
@@ -165,21 +188,20 @@ var cy = cytoscape({
           prevData = currentData;
         }
       }
-      xhr.open("GET", "networkStats.json", true);
-      xhr.send();
+      statsReq.open("GET", "networkStats.json", true);
+      statsReq.send();
       counter++;
-      setTimeout(updateSwitchStats, 1000);
+      setTimeout(updateNetwork, 1000);
+
     }
   }
 
-  // initialise graph (controller + switches)
-  initialiseGraphElements();
+  // add controller, routing elements, hosts and links
+  addNetworkElements();
 
-  // add hosts and links
-  addHostsAndLinks();
 
-  // kick off stats fetch loop
-  updateSwitchStats();
+  // kick off fetch loop
+  //updateNetwork();
 
 
   cy.nodeHtmlLabel([{
