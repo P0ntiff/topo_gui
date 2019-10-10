@@ -116,7 +116,7 @@ var cy = cytoscape({
         style: {
           'line-color': linkColorManager,
           'line-style': linkPatternManager,
-          'font-size': '1em',
+          'font-size': '0.8em',
           'label': linkLabelStyler,
           'source-label': linkSourceLabelStyler,
           'target-label': linkDestLabelStyler,
@@ -124,8 +124,8 @@ var cy = cytoscape({
           'source-text-rotation': 'autorotate',
           'target-text-rotation': 'autorotate',
           'text-wrap': 'wrap',
-          'source-text-offset': '8em',
-          'target-text-offset': '8em',
+          'source-text-offset': '6em',
+          'target-text-offset': '6em',
         }
       },
       {
