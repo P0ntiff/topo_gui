@@ -180,6 +180,7 @@ if __name__ == "__main__":
     counter = 0
     while True:
         print('Querying REST API. Count #' + str(counter))
+        gb.queryHostsAndLinks()
         gb.queryStats()
         time.sleep(pollTime)
         counter += 1
