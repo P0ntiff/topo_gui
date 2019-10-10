@@ -1,5 +1,4 @@
 
-
 var cy = cytoscape({
     container: document.getElementById('cy'),
   
@@ -12,21 +11,37 @@ var cy = cytoscape({
         style: {
           //'label': 'data(id)',
           'font-weight': 'bold',
-          //'background-image': 'full url'
+          'width': '4em',
+          'height': '4em'
         }
       },
       {
         selector: '.controller',
         style: {
-          'background-color': '#1F1AC4',
+          'background-image': './assets/controller.png',
+          'background-clip': 'none',
+          'background-fit': "cover",
+          'background-opacity': 0,
         }
       },
       {
         selector: '.switch',
         style: {
-          'background-color': '#0099ff',
+          'background-image': './assets/switch.png',
+          'background-clip': 'none',
+          'background-fit': "cover",
+          'background-opacity': 0,
         }
       },
+      {
+        selector: '.host',
+        style: {
+          'background-image': './assets/host.png',
+          'background-clip': 'none',
+          'background-fit': "cover",
+          'background-opacity': 0,
+        }
+      },      
       {
         selector: '.host-switch-link',
         style: {
@@ -46,12 +61,7 @@ var cy = cytoscape({
           'target-text-offset': '1.5em',
         }
       },
-      {
-        selector: '.host',
-        style: {
-          'background-color': '#000000',
-        }
-      },
+
       {
         selector: 'edge',
         style: {
@@ -174,9 +184,9 @@ var cy = cytoscape({
 
   cy.nodeHtmlLabel([{
     query : '.controller, .host',
-    valign: "bottom",
+    valign: "top",
     halign: "center",
-    valignBox: "bottom",
+    valignBox: "top",
     halignBox: "center",
     tpl: function(data) {
       return '<p><div class="bold-title">' + data.name + '</div></p>'
