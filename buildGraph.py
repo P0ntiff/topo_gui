@@ -110,13 +110,11 @@ class GraphBuilder:
         # hosts
         for device in deviceData:
             # assume that a recorded device with an IPv4 is a host (weak but need to get around fake hosts in TopoGuard+)
-            if len(device['ipv4']) > 0:
+            # only care about hosts that are currently attached (ignore ex hosts)
+            if len(device['ipv4']) > 0 and len(device['attachmentPoint']) > 0:
                 ipAddr = device['ipv4'][0]
                 hostID = 'host_' + ipAddr
                 macAddr = device['mac']
-                if 'attachmentPoint' not in device:
-                    print('Attachment point not recorded for device ' + ipAddr)
-                    return
                 attachedSwitch = device['attachmentPoint'][0]['switchDPID'][-2:]
                 attachedSwitchID = self.switchBaseID + attachedSwitch
                 attachedSwitchPort = device['attachmentPoint'][0]['port']
