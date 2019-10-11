@@ -30,5 +30,5 @@
 
 # Notes:
 * Chrome by default prevents local files from being queried by the browser, as a security feature. This can be disabled however. If Firefox also prevents the GUI from loading, try launching as root user as a possible fix.
-* **Script only supports <=10 switches** (can be increased but hardcoded limit for now)
-
+* **The Python currently only supports <=10 switches** (can be increased but hardcoded limit for now)
+* **The Javascript currently only executes the network update loop for 120 seconds before stopping**, but this can also be arbitrarily increased.
