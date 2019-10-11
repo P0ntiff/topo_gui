@@ -124,8 +124,8 @@ var cy = cytoscape({
           'source-text-rotation': 'autorotate',
           'target-text-rotation': 'autorotate',
           'text-wrap': 'wrap',
-          'source-text-offset': '6em',
-          'target-text-offset': '6em',
+          'source-text-offset': '4em',
+          'target-text-offset': '4em',
         }
       },
       {
@@ -194,7 +194,6 @@ var layoutOptionsWithoutController = {
   nodeDimensionsIncludeLabels: true, // Excludes the label when calculating node bounding boxes for the layout algorithm
 };
 
-
 var layoutHandler = function() {
   if ((cy.getElementById('controller') != null) && (cy.nodes('.controller').length > 0)) {
     let layout = cy.elements().layout(layoutOptionsWithController);
@@ -203,10 +202,7 @@ var layoutHandler = function() {
     let layout = cy.elements().layout(layoutOptionsWithoutController);
     layout.run();
   }
-
-}
-
-//var layoutOptions = (cy.getElementById('controller') != null) && (cy.nodes('.controller').length > 0) ? layoutOptionsWithController : layoutOptionsWithoutController
+};
 
 var addNetworkElements = function() {
   var xhr = new XMLHttpRequest();
