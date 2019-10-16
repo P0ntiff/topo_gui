@@ -29,6 +29,7 @@
 * A solid line indicates the link has been verified within the last 500ms
 * A dashed line indicates the link has been verified between 500ms and 1000ms ago
 * A dotted line indicates the link has not been verified in the last 1000ms
+* Bold text on the link indicates that a difference in statistics between switch ports has been noted (i.e bytes receied on one side vs bytes received on the other side)
 
 # Notes:
 * Chrome by default prevents local files from being queried by the browser, as a security feature. This can be disabled however. If Firefox also prevents the GUI from loading, try launching as root user as a possible fix.
