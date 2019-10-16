@@ -1,5 +1,5 @@
 
-var debugFlag = true;
+var debugFlag = false;
 
 var linkLabelStyler = function(edge) {
   if (debugFlag) {
@@ -10,6 +10,17 @@ var linkLabelStyler = function(edge) {
     }
   } else {
     return edge.data('delay') + 'ms';
+  }
+}
+
+var linkLabelWeightManager = function(edge) {
+  // check stats conditions
+  if ((edge.data('sourceDifference') != 0) || (edge.data('destDifference') != 0)) {
+    // suspicious link, should be red
+    return 'bold';
+  } else {
+    // okay link, should be green
+    return 'normal';
   }
 }
 
@@ -118,6 +129,7 @@ var cy = cytoscape({
           'line-style': linkPatternManager,
           'font-size': '0.8em',
           'label': linkLabelStyler,
+          'font-weight': linkLabelWeightManager,
           'source-label': linkSourceLabelStyler,
           'target-label': linkDestLabelStyler,
           'text-rotation': 'autorotate',
@@ -170,27 +182,33 @@ var cy = cytoscape({
 });
 
 var layoutOptionsWithController = {
-  name: 'breadthfirst',
+  name: 'cose',
+  root: '#controller',
   directed: false,
-  roots: '#controller',
-  circle: false,
+  animate: false,
+  equidistant: true,
+  minNodeSpacing: 20,
   fit: true, // whether to fit the viewport to the graph
-  padding: 30, // padding used on fit
+  padding: 150, // padding used on fit
+  idealEdgeLength: function( edge ){ return 100; },
   boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
   avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
-  avoidOverlapPadding: 10, // extra spacing around nodes when avoidOverlap: true
+  //avoidOverlapPadding: 200, // extra spacing around nodes when avoidOverlap: true
   nodeDimensionsIncludeLabels: true, // Excludes the label when calculating node bounding boxes for the layout algorithm
 };
 
 var layoutOptionsWithoutController = {
-  name: 'circle',
+  name: 'cose',
   directed: false,
-  circle: false,
+  animate: false,
+  equidistant: true,
+  minNodeSpacing: 20,
   fit: true, // whether to fit the viewport to the graph
-  padding: 30, // padding used on fit
+  padding: 150, // padding used on fit
+  idealEdgeLength: function( edge ){ return 100; },
   boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
   avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
-  avoidOverlapPadding: 10, // extra spacing around nodes when avoidOverlap: true
+  //avoidOverlapPadding: 200, // extra spacing around nodes when avoidOverlap: true
   nodeDimensionsIncludeLabels: true, // Excludes the label when calculating node bounding boxes for the layout algorithm
 };
 
@@ -317,8 +335,7 @@ cy.nodeHtmlLabel([{
 }]);
 
 cy.on('tap', function(event) {
-  debugFlag = !debugFlag
-
+  debugFlag = !debugFlag;
 });
 
   

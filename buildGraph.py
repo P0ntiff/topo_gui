@@ -181,7 +181,14 @@ class GraphBuilder:
                     destReceiveBytes = destPortData['receiveBytes']
                     outputData[edgeID]['data']['destTransmitBytes'] = destTransmitBytes
                     outputData[edgeID]['data']['destReceiveBytes'] = destReceiveBytes
-                
+
+            # store the difference in transmitted vs received for both switch ports
+            outputData[edgeID]['data']['sourceDifference'] = \
+                outputData[edgeID]['data']['sourceTransmitBytes'] - \
+                outputData[edgeID]['data']['destReceiveBytes']
+            outputData[edgeID]['data']['destDifference'] = \
+                outputData[edgeID]['data']['destTransmitBytes'] - \
+                outputData[edgeID]['data']['sourceReceiveBytes']
         return outputData
 
     # def queryStats(self):

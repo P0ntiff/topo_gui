@@ -12,9 +12,11 @@
 
 3/ Check ```networkElements.json``` and ```networkLinkData.json``` have been created in the local directory.
 
-4/ Open index.html in Firefox. Click on-screen to toggle debug output.
+4/ Open index.html in Firefox. For Chrome, see notes below. 
 
-5/ Stop python script with ```ctrl+c```.
+5/ Click on-screen or an individual edges to toggle debug output (can take a few seconds to update). Drag nodes around with left mouse button and scroll to zoom in/out.
+
+6/ Stop python script with ```ctrl+c```.
 
 # Interpreting the Graph
 
