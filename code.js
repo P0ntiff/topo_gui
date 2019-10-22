@@ -240,7 +240,7 @@ let currTopoData = null;
 let prevLinkData = null;
 let currLinkData = null;
 var updateNetwork = function() {
-  if (counter < 120) {
+  if (counter < 1200) {
     // topology request
     // var topoReq = new XMLHttpRequest();
     // topoReq.onreadystatechange = function() {
