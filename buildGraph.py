@@ -152,6 +152,7 @@ class GraphBuilder:
             lastHpvTime = link['last-hpv-received-time']
             timeStamp = link['time-stamp']
             hpvStatus = link['hpv-verified-status']
+            statsStatus = link['stats-verified-status']
             edgeID = self.switchPortToLinkMap[(srcSwitchID, srcSwitchPort)]
             outputData[edgeID] = {'data': 
                                     {'id': edgeID, 
@@ -163,7 +164,8 @@ class GraphBuilder:
                                      'delay': delay,
                                      'lastHpvTime': lastHpvTime,
                                      'timeSinceLastHpv': timeStamp - lastHpvTime if lastHpvTime != 0 else -1,
-                                     'hpvStatus': hpvStatus},
+                                     'hpvStatus': hpvStatus,
+                                     'statsStatus': statsStatus},
                                 'classes': 'switch-switch-link'}
             sourceSwitchStats = statData[srcSwitchDPID]
             # get stats for source switch port

@@ -1,45 +1,54 @@
 
 var debugFlag = false;
 
-var linkLabelStyler = function(edge) {
+var linkLabelPrinter = function(edge) {
   if (debugFlag) {
     if (edge.data('lastHpvTime') == 0) {
-      return 'HPV status: ' + edge.data('hpvStatus') + '\n' + edge.data('delay') + 'ms\n' + 'unverified';
+      return 'Stats: ' + edge.data('statsStatus') + '\n' + edge.data('delay') + 'ms\n' + 'Unverified';
     } else {
-      return 'HPV status: ' + edge.data('hpvStatus') + '\n' + edge.data('delay') + 'ms\n' + 'verified ' + edge.data('timeSinceLastHpv') + 'ms ago';
+      return 'Stats: ' + edge.data('statsStatus') + '\n' + edge.data('delay') + 'ms\n' + 'Verified ' + edge.data('timeSinceLastHpv') + 'ms ago';
     }
   } else {
-    return edge.data('delay') + 'ms';
+    if (edge.data('statsStatus') == 0) {
+      return 'Abnormal Loss Detected' + '\n' + edge.data('delay') + 'ms';
+    } else {
+      return edge.data('delay') + 'ms';
+    }
   }
 }
 
 var linkLabelWeightManager = function(edge) {
   // check stats conditions
-  if ((edge.data('sourceDifference') != 0) || (edge.data('destDifference') != 0)) {
-    // suspicious link, should be red
+  // if ((edge.data('sourceDifference') != 0) || (edge.data('destDifference') != 0)) {
+  //   // suspicious link
+  //   return 'bold';
+  // } else {
+  //   // okay link
+  //   return 'normal';
+  // }
+  if (edge.data('statsStatus') == 0) {
     return 'bold';
   } else {
-    // okay link, should be green
     return 'normal';
   }
 }
 
-var linkSourceLabelStyler = function(edge) {
+var linkSourceLabelPrinter = function(edge) {
   if (debugFlag) {
-    return  + edge.data('sourceTransmitBytes') + ' transmitted\n\n'
+    return  edge.data('sourceTransmitBytes') + ' -->\n\n'
           //+ edge.data('sourceSwitchPort') + '\n'
-          + edge.data('sourceReceiveBytes') + ' received';
+          + '<-- ' + edge.data('sourceReceiveBytes');
   } else {
     //return edge.data('sourceSwitchPort');
     return '';
   }
 }
 
-var linkDestLabelStyler = function(edge) {
+var linkDestLabelPrinter = function(edge) {
   if (debugFlag) {
-    return  + edge.data('destReceiveBytes') + ' received\n\n'
+    return  + edge.data('destReceiveBytes') + ' -->\n\n'
           //+ edge.data('sourceSwitchPort') + '\n'
-          + edge.data('destTransmitBytes') + ' transmitted';
+          + '<-- ' + edge.data('destTransmitBytes');
   } else {
     return '';
   }
@@ -128,10 +137,10 @@ var cy = cytoscape({
           'line-color': linkColorManager,
           'line-style': linkPatternManager,
           'font-size': '0.8em',
-          'label': linkLabelStyler,
+          'label': linkLabelPrinter,
           'font-weight': linkLabelWeightManager,
-          'source-label': linkSourceLabelStyler,
-          'target-label': linkDestLabelStyler,
+          'source-label': linkSourceLabelPrinter,
+          'target-label': linkDestLabelPrinter,
           'text-rotation': 'autorotate',
           'source-text-rotation': 'autorotate',
           'target-text-rotation': 'autorotate',
@@ -208,7 +217,7 @@ var layoutOptionsWithoutController = {
   idealEdgeLength: function( edge ){ return 100; },
   boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
   avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
-  //avoidOverlapPadding: 200, // extra spacing around nodes when avoidOverlap: true
+  //avoidOverlapPadding: 100, // extra spacing around nodes when avoidOverlap: true
   nodeDimensionsIncludeLabels: true, // Excludes the label when calculating node bounding boxes for the layout algorithm
 };
 
